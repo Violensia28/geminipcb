@@ -28,12 +28,8 @@ jobs:
       - name: Run KiCad Exports Action
         uses: INTI-CMNB/actions-kicad-exports@v5 # Menggunakan action yang sudah teruji
         with:
-          # WAJIB: Ganti 'nama-proyek-kamu' dengan nama file proyek KiCad-mu (tanpa ekstensi)
-          # Contoh: jika filemu 'dc_spot_welder.kicad_pro', isikan 'dc_spot_welder'
-          kicad-project-file: 'nama-proyek-kamu' 
-          
-          # (Opsional) Kamu bisa menambahkan argumen lain di sini jika perlu
-          # Lihat dokumentasi action untuk lebih detail
+          # NAMA FILE PROYEKMU SUDAH DIMASUKKAN DI SINI
+          kicad-project-file: 'Universal_Power_Board' 
 
       # Langkah 3: Mengunggah hasil render sebagai "Artifact"
       # Artifact adalah file yang bisa kamu unduh setelah workflow selesai
