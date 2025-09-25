@@ -1,0 +1,47 @@
+# Nama workflow ini, akan muncul di tab "Actions" di GitHub
+name: 'Render KiCad PCB Outputs'
+
+# Pemicu: Kapan workflow ini harus berjalan?
+# Di sini, ia akan berjalan setiap kali ada 'push' ke branch 'main'
+on:
+  push:
+    branches:
+      - main
+
+# Daftar pekerjaan (jobs) yang akan dilakukan
+jobs:
+  generate_outputs:
+    # Nama pekerjaan, bebas kamu tentukan
+    name: Generate Manufacturing Files
+
+    # Menggunakan sistem operasi Ubuntu versi terbaru untuk menjalankan pekerjaan
+    runs-on: ubuntu-latest
+
+    # Langkah-langkah (steps) yang akan dieksekusi secara berurutan
+    steps:
+      # Langkah 1: Mengambil kode/file dari repositorimu
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Langkah 2: Menjalankan action utama untuk ekspor KiCad
+      # Action ini akan membuat Gerber, P&P, BOM, PDF, dan lainnya secara otomatis
+      - name: Run KiCad Exports Action
+        uses: INTI-CMNB/actions-kicad-exports@v5 # Menggunakan action yang sudah teruji
+        with:
+          # WAJIB: Ganti 'nama-proyek-kamu' dengan nama file proyek KiCad-mu (tanpa ekstensi)
+          # Contoh: jika filemu 'dc_spot_welder.kicad_pro', isikan 'dc_spot_welder'
+          kicad-project-file: 'nama-proyek-kamu' 
+          
+          # (Opsional) Kamu bisa menambahkan argumen lain di sini jika perlu
+          # Lihat dokumentasi action untuk lebih detail
+
+      # Langkah 3: Mengunggah hasil render sebagai "Artifact"
+      # Artifact adalah file yang bisa kamu unduh setelah workflow selesai
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          # Nama file ZIP yang akan dihasilkan
+          name: kicad-manufacturing-files
+          # Path ke folder tempat file-file hasil render disimpan oleh action sebelumnya
+          path: kicad-exports/
+
